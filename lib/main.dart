@@ -1,14 +1,5 @@
-// ignore_for_file: unused_import
-
 import 'package:flutter/material.dart';
-import 'package:my_app/model/current_vitals.dart';
-import 'package:my_app/model/visit_history.dart';
-import 'package:my_app/widgets/drawer_menu_bar.dart';
-import 'package:my_app/widgets/profile_card.dart';
-import 'package:my_app/widgets/rich_data_table.dart';
-import 'package:my_app/widgets/square_card.dart';
-import 'package:my_app/widgets/current_vitals_tile.dart';
-import 'package:my_app/widgets/visit_history.dart';
+import 'package:my_app/model/allergry_model.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,100 +10,105 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Rich DataTable Example'),
-        ),
-        body: Column(
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Expanded(
-                  child: ProfileCard(
-                    name: "John Doe",
-                    avatarLink: 'assets/images/Avatar.png',
-                    dob: "2 Dec 1993",
-                    age: "30",
-                    gender: "Male",
-                    race: "American",
-                    ethnicity: "Hispanic",
-                    phone: "+1 123 456 789",
-                    email: "john.doe@miamibaptist.com",
-                    address: "123 South St, Miami Florida 5678",
-                    insurance: "United Healthcare",
-                  ),
-                ),
-                Expanded(
-                  child: SquareTileVisitHistory(
-                    title: 'Visit History',
-                    viewMoreText: 'View More',
-                    visitData: visitData,
-                  ),
-                ),
-                Expanded(
-                  child: CurrnetVitalsTile(
-                    title: 'Current Vitals',
-                    viewMoreText: 'View More',
-                    rowsData: cardData,
-                  ),
-                ),
-              ],
-            ),
+    return const MaterialApp(
+      home: MyTabs(),
+    );
+  }
+}
+
+class MyTabs extends StatefulWidget {
+  const MyTabs({super.key});
+
+  @override
+  // ignore: library_private_types_in_public_api
+  _MyTabsState createState() => _MyTabsState();
+}
+
+class _MyTabsState extends State<MyTabs> with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(vsync: this, length: 3);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Tabs Example'),
+        backgroundColor: Colors.white,
+        bottom: TabBar(
+          controller: _tabController,
+          labelColor: Colors.black,
+          indicatorColor: Colors.blue,
+          tabs: const [
+            Tab(text: 'Health COnditionas'),
+            Tab(text: 'Allergies'),
+            Tab(text: 'Lab Results'),
           ],
         ),
-
-        // rounded title
-        // body: const RoundedTile(
-        //   title: "Current Vitals",
-        //   viewMoreText: "View More",
-        // ),
-
-        // data table
-        // body: const MyDataTable(),
-
-        // Current Vitals
-        // body: SingleChildScrollView(
-        //   child: Column(
-        //     children: [
-        //       SquareTile(
-        //         title: 'Current Vitals',
-        //         viewMoreText: 'View More',
-        //         rowsData: cardData,
-        //       ),
-        //     ],
-        //   ),
-        // ),
-
-        // visit history
-        // body: SingleChildScrollView(
-        //   child: Column(
-        //     children: [
-        //       SquareTileVisitHistory(
-        //         title: 'Visit History',
-        //         viewMoreText: 'View More',
-        //         visitData: visitData,
-        //       ),
-        //     ],
-        //   ),
-        // ),
-
-        // profile card
-        // body: const ProfileCard(
-        //   name: "John Doe",
-        //   avatarLink: 'assets/images/Avatar.png',
-        //   dob: "2 Dec 1993",
-        //   age: "30",
-        //   gender: "Male",
-        //   race: "American",
-        //   ethnicity: "Hispanic",
-        //   phone: "+1 123 456 789",
-        //   email: "john.doe@miamibaptist.com",
-        //   address: "123 South St, Miami Florida 5678",
-        //   insurance: "United Healthcare",
-        // ),
       ),
+      body: TabBarView(
+        controller: _tabController,
+        children: const [
+          Center(child: Text('Tab 1 Content')),
+          AllergiesTab(),
+          Center(child: Text('Tab 3 Content')),
+        ],
+      ),
+    );
+  }
+}
+
+class AllergiesTab extends StatelessWidget {
+  const AllergiesTab({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DataTable(
+      columns: const [
+        DataColumn(label: Text('Date')),
+        DataColumn(label: Text('Allergies')),
+        DataColumn(label: Text('Reactions')),
+      ],
+      rows: allergies.map((Allergy allergy) {
+        return DataRow(
+          color: MaterialStateProperty.resolveWith<Color>(
+            (Set<MaterialState> states) {
+              // Use null-aware operator to provide a default color
+              return Colors.grey[200] ?? Colors.transparent;
+            },
+          ),
+          cells: [
+            DataCell(
+              Container(
+                margin: const EdgeInsets.all(8.0),
+                child: Text(allergy.date),
+              ),
+            ),
+            DataCell(
+              Container(
+                margin: const EdgeInsets.all(8.0),
+                child: Text(allergy.allergies),
+              ),
+            ),
+            DataCell(
+              Container(
+                margin: const EdgeInsets.all(8.0),
+                child: Text(allergy.reactions),
+              ),
+            ),
+          ],
+        );
+      }).toList(),
     );
   }
 }
