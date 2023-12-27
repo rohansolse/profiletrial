@@ -1,30 +1,30 @@
-class Allergy {
+class MyTableRowData {
   final String date;
   final String allergies;
   final String reactions;
 
-  Allergy({
+  MyTableRowData({
     required this.date,
     required this.allergies,
     required this.reactions,
   });
 }
 
-final List<Allergy> allergies = [
-  Allergy(
-    date: 'Dec 12, 2023',
-    allergies: 'Hypochorite',
-    reactions: 'Cyanoacrylate',
+final List<MyTableRowData> tableData = [
+  MyTableRowData(
+    date: '2023-01-01',
+    allergies: 'Peanuts',
+    reactions: 'Rash',
   ),
-  Allergy(
-    date: 'Dec 01, 2023',
-    allergies: 'Sulfacetamide',
-    reactions: 'Haemobartonella',
+  MyTableRowData(
+    date: '2023-02-15',
+    allergies: 'Dust',
+    reactions: 'Sneezing',
   ),
-  Allergy(
-    date: 'Dec 04, 2023',
-    allergies: 'Cephalosporin',
-    reactions: 'Eosinopenia',
+  MyTableRowData(
+    date: '2023-03-10',
+    allergies: 'Cat Hair',
+    reactions: 'Watery Eyes',
   ),
-  // Add more allergy instances as needed
+  // Add more data as needed
 ];
