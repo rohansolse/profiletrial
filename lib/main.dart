@@ -1,4 +1,3 @@
-// main.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_app/cubit/list_cubit.dart';
@@ -45,11 +44,17 @@ class MyHomePage extends StatelessWidget {
                   },
                 ),
               ),
-              ElevatedButton(
-                onPressed: () {
-                  context.read<ListCubit>().addItem('New Item');
-                },
-                child: const Text('Add Item'),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  controller: TextEditingController(),
+                  decoration: const InputDecoration(
+                    hintText: 'Enter new item',
+                  ),
+                  onSubmitted: (value) {
+                    context.read<ListCubit>().addItem(value);
+                  },
+                ),
               ),
             ],
           );
