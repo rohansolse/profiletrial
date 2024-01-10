@@ -17,6 +17,13 @@ class MyApp extends StatelessWidget {
         body: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: DataTable(
+            dividerThickness: 0.0,
+            horizontalMargin: 20.0,
+            dataRowColor: MaterialStateProperty.resolveWith<Color>(
+              (Set<MaterialState> states) {
+                return const Color.fromRGBO(250, 250, 250, 1);
+              },
+            ),
             columns: const [
               DataColumn(label: Text('Header 1')),
               DataColumn(label: Text('Header 2')),
@@ -29,6 +36,19 @@ class MyApp extends StatelessWidget {
               // Add more DataColumn widgets as needed
             ],
             rows: const [
+              DataRow(
+                cells: [
+                  DataCell(Text('Data 1')),
+                  DataCell(Text('Data 2')),
+                  DataCell(Text('Data 3')),
+                  DataCell(Text('Data 4')),
+                  DataCell(Text('Data 5')),
+                  DataCell(Text('Data 6')),
+                  DataCell(Text('Data 7')),
+                  DataCell(Text('Data 8')),
+                  // Add more DataCell widgets as needed
+                ],
+              ),
               DataRow(
                 cells: [
                   DataCell(Text('Data 1')),
